@@ -14,12 +14,24 @@ const fetchUsers = async () => {
 const displayUsers = async () => {
   await fetchUsers();
 
+  const dateParser = (date) => {
+    let newDate = new Date(date).toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    return newDate;
+  };
+
   document.body.innerHTML = usersData
     .map(
       (user) =>
         `
        <div class="card">
-        <h3>${user.name.first} ${user.name}</h3>
+       <img src="${user.picture.large}"><img>
+       <h3>${user.name.first} ${user.name.last}</h3>
+        <p>${user.location.city}, ${dateParser(user.dob.date)}<p>
+        <em>membre depuis : ${user.registered.date}</em>
       </div>
       `,
     )
